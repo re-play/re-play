@@ -1,0 +1,53 @@
+dist: trusty
+sudo: required
+
+git:
+  depth: 1
+
+language: cpp
+
+matrix:
+  include:
+    - os: osx
+      compiler: clang
+      osx_image: xcode8
+#    - os: linux
+#      compiler: gcc
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-6
+#            - g++-6
+
+script:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then chmod +x build_macOS.sh ; fi
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then TAG_NAME=${TRAVIS_TAG} ./build_macOS.sh ; fi
+#  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 100 ; fi
+#  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 100 ; fi
+#  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then chmod +x build_linux.sh ; fi
+#  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then TAG_NAME=${TRAVIS_TAG} CXX="g++-6" CC="gcc-6" ./build_linux.sh ; fi
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: $GITHUB_TOKEN
+    file:
+      - Re-play.macos.x64.portable.zip
+    overwrite: true
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = osx
+#  - provider: releases
+#    api_key:
+#      secure: NDZ/RLvQzTWOkUnFhRqDFlBUgWJUtre5f12aBcolDMoIxyFfoZ/87GWXBk+OD4zYH7kQa0TY21Ap8zKJOpLW5vqbqPXtHW2cEHYez5l8FBxF1JpEUL0TLplbNbgjGGKkTatXYG9M0jCTKb8cXm3X7er3AAIKxJUhsLUdQDjR5SlJgqdShcOMuha1SXRuOhxV85Tp6ZEwXFnKeBQI9k4v1TyJMHY6bS6Sv8uMmpExVdznFgHNiDrdtLbqPyIyw4cJbOPCxlSmdynUkG7jvm0bHlMqzwsxVrWREL/QX0A1L5Orux+Wc187XCZunKCw7Eg05lesXySj3E3v0DoChjNuTIm7hBR6zCxHkHTgqdyfuiN1fKwLbZ2zHrhxIz206V/wddrFwYhmly243ayAua4ExJbQj+N1s47ttqQWUUJz/sOHorPsT9fG97SneyyEeGwtt/q7DKVpX/g4SA2UIIHxJxLlqw5TVpAatimhd09mg5HFt1i4yZExoBQSNQePCB7bsu5hvd2Wfs9l+3b10VAwbTsT1+n6oEHcjzt25nS7ekGuzSj7LYRUxbqeEdRzKWNGgQ16UEcldgAQlFPeqRcjVS5g+KQwIQwk8IPg5C8b5E4/r+Ig40O51aU2fXI33fMpJhhpQXoDc1id13G6vvuMMAKS/0O/jFP1184dPQ/hjiA=
+#    file:
+#      - build/linux/gcc/x86_64/release/YourApp_${TRAVIS_TAG}_linux_x86_64_portable.zip
+#      - installer/linux/YourApp_${TRAVIS_TAG}_linux_x86_64_installer
+#    overwrite: true
+#    skip_cleanup: true
+#    on:
+#      tags: true
+#      condition: $TRAVIS_OS_NAME = linux

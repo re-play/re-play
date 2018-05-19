@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>ui/player/diagnostic/DebugInformations.qml</file>
+        <file>ui/player/VideoBar.qml</file>
+        <file>ui/player/SeekBar.qml</file>
+        <file>ui/common/FaButton.qml</file>
+        <file>resources/fonts/Fonts.qml</file>
+        <file>resources/fonts/Icons.qml</file>
+        <file>ui/common/charts/MiniAreaChart.qml</file>
+        <file>ui/common/charts/MiniTresholdChart.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,31 @@
+image: Visual Studio 2017
+
+environment:
+  matrix:
+  - QT: C:\Qt\5.10.1\msvc2017_64
+    PLATFORM: amd64
+    COMPILER: msvc
+    VSVER: 16
+
+clone_depth: 1
+
+init:
+  - set TAG_NAME=%APPVEYOR_REPO_TAG_NAME%
+
+build_script:
+  - call "build_windows.cmd"
+ 
+artifacts:
+  - path: Re-play.windows.x64.portable.zip
+    name: portable
+  
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: pm3hawrFZtCshEgOcp3CTisZAs0hVYCMRMKRJnAPPj++ySIMz8WRQHpeJ01g/xLo
+    artifact: portable
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+      appveyor_repo_tag: true
