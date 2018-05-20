@@ -10,5 +10,6 @@
         <file>resources/fonts/Icons.qml</file>
         <file>ui/common/charts/MiniAreaChart.qml</file>
         <file>ui/common/charts/MiniTresholdChart.qml</file>
+        <file>ui/player/StandardPlayer.qml</file>
     </qresource>
 </RCC>
