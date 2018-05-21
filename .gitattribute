@@ -1,0 +1,6 @@
+
+# - Exclude libraries
+avlibs/ export-ignore
+*.yml export-ignore
+*.sh export-ignore
+*.cmd export-ignore
