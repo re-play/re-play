@@ -1,0 +1,6 @@
+
+# - Exclude libraries
+avlibs/ linguist-vendored
+*.yml linguist-vendored
+*.sh linguist-vendored
+*.cmd linguist-vendored
