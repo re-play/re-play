@@ -4,3 +4,4 @@ avlibs/* linguist-vendored
 *.yml linguist-vendored
 *.sh linguist-vendored
 *.cmd linguist-vendored
+*.py linguist-vendored
