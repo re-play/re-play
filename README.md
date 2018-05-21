@@ -1,4 +1,4 @@
-# Re:play [![CodeFactor](https://www.codefactor.io/repository/github/re-play/re-play/badge)](https://www.codefactor.io/repository/github/re-play/re-play)
+# ![untitled-1](https://user-images.githubusercontent.com/17594867/40332405-50a5fcbc-5d54-11e8-82d0-225c969fd5ff.png) Re:play [![CodeFactor](https://www.codefactor.io/repository/github/re-play/re-play/badge)](https://www.codefactor.io/repository/github/re-play/re-play)
 A crossplatform video player built with QT and AVLibs extensible with plugins.
 
 ## Avaiable builds
