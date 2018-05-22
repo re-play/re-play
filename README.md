@@ -1,4 +1,5 @@
 # ![untitled-1](https://user-images.githubusercontent.com/17594867/40332710-5312f0d0-5d55-11e8-9689-9d5e0fc04c9e.png)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d68c1d58f7d4fe98b12cca0d7d737d4)](https://app.codacy.com/app/ad.demontis/re-play?utm_source=github.com&utm_medium=referral&utm_content=re-play/re-play&utm_campaign=badger)
 [![CodeFactor](https://www.codefactor.io/repository/github/re-play/re-play/badge)](https://www.codefactor.io/repository/github/re-play/re-play)
 
 A crossplatform video player built with QT and AVLibs extensible with plugins.
