@@ -1,0 +1,3 @@
+[submodule "re-play-plug"]
+	path = re-play-plug
+	url = https://github.com/re-play/re-play-plug.git

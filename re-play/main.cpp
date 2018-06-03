@@ -6,6 +6,8 @@
 #include <QtQml/qqml.h>
 #include <QQmlListProperty>
 
+#include <core/plugins/pluginloader.h>
+
 #include <core/audio/audiodecoder.h>
 #include <core/audio/speakers.h>
 #include <core/audio/speaker.h>
@@ -22,6 +24,7 @@ using namespace RePlay::Core;
 using namespace RePlay::Core::Audio;
 using namespace RePlay::Core::Video;
 using namespace RePlay::Core::Timing;
+using namespace RePlay::Core::Plugins;
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +36,7 @@ int main(int argc, char *argv[])
 	qmlRegisterSingletonType(QUrl("qrc:///resources/fonts/Fonts.qml"), "replay.fonts", 1, 0, "Fonts");
 	qmlRegisterSingletonType(QUrl("qrc:///resources/fonts/Icons.qml"), "replay.fonts", 1, 0, "Icons");
 
+    qmlRegisterType<PluginLoader>("replay.core.plugins", 1, 0, "PluginLoader");
 
 	qmlRegisterType<AudioDecoder>("replay.core.audio", 1, 0, "AudioDecoder");
 	qmlRegisterType<Speaker>("replay.core.audio", 1, 0, "Speaker");
