@@ -1,8 +1,12 @@
 #ifndef PLUGINLOADER_H
 #define PLUGINLOADER_H
 
+#include <QRegularExpression>
 #include <QFileSystemWatcher>
+#include <QCoreApplication>
 #include <QPluginLoader>
+#include <QJsonDocument>
+#include <QJsonArray>
 #include <QObject>
 #include <QDir>
 
@@ -47,11 +51,17 @@ namespace RePlay
                 // ------------------------------------------------
                 void initialized();
 
+                // - Triggered when a change occurs in the plugin folder
+                // ------------------------------------------------
+                void pluginChanged(QString file);
+                void pluginFolderChanged();
+
             public slots:
 
                 // - Handles directory changed
                 // ------------------------------------------------
                 void handleDirectoryChanged(QString dir);
+                void handleFileChanged(QString dir);
 
             private:
 
@@ -60,6 +70,9 @@ namespace RePlay
 
                 // - Folder checker
                 QFileSystemWatcher *pFolderWatcher;
+
+                // - Plugin register
+                QJsonDocument *pPluginRegister;
 
             };
 

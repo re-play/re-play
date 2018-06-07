@@ -8,27 +8,51 @@ namespace RePlay
         namespace Plugins
         {
 
-            PluginLoader::PluginLoader(QObject *parent) : QObject(parent), pFolderWatcher(nullptr)
+            PluginLoader::PluginLoader(QObject *parent)
+                : QObject(parent),
+                  pFolderWatcher(nullptr),
+                  pPluginRegister(nullptr),
+                  pPlugFolder("plugins")
             {
                 connect(pFolderWatcher, SIGNAL(directoryChanged(QString)), this, SLOT(handleDirectoryChanged(QString)));
+                connect(pFolderWatcher, SIGNAL(fileChanged(QString)), this, SLOT(handleFileChanged(QString)));
             }
 
             void PluginLoader::initialize(QString folder)
             {
-                if (pFolderWatcher)
-                    delete pFolderWatcher;
+                { // - Initialize plugin folder
 
-                pFolderWatcher = new QFileSystemWatcher();
+                    if (pFolderWatcher)
+                        delete pFolderWatcher;
 
-                if (!QDir(folder).exists())
-                {
-                    QDir().mkdir(folder);
+                    pFolderWatcher = new QFileSystemWatcher();
+
+                    if (!QDir(folder).exists())
+                    {
+                        QDir().mkdir(folder);
+                    }
+
+                    QDir dir(QCoreApplication::applicationDirPath());
+                    pPlugFolder = dir.absoluteFilePath(folder);
+
+                    // - Watch folder
+                    pFolderWatcher->addPath(pPlugFolder);
+
                 }
 
-                pPlugFolder = QDir(folder).absoluteFilePath("");
+                { // - Initialize plugins.json
 
-                // - Watch folder
-                pFolderWatcher->addPath(pPlugFolder);
+                    QFile jsonFile(pPlugFolder + "/plugins.json");
+
+                    jsonFile.open(QIODevice::ReadOnly);
+
+                    if (pPluginRegister)
+                        delete pPluginRegister;
+
+                    pPluginRegister = new QJsonDocument(QJsonDocument::fromJson(jsonFile.readAll()));
+
+                    jsonFile.close();
+                }
 
                 emit initialized();
             }
@@ -49,10 +73,29 @@ namespace RePlay
             {
                 if (QFile::exists(path))
                 {
-                    QFile::copy(path, pPlugFolder);
+                    QFile from(path);
+                    QFileInfo fileInfo(from.fileName());
+                    from.copy("C:\\Users\\PizzaKun\\Documents\\Projects\\build-re-play-Desktop_Qt_5_10_0_MSVC2017_64bit-Debug\\re-play\\plugins\\" + fileInfo.fileName());
+                    if (from.error() != QFile::NoError)
+                        qDebug(from.errorString().toStdString().c_str());
+
+                    //path = pPlugFolder + QFile(path).fileName();
                 }
 
                 auto plug = getPlugin(path);
+                auto plugName = plug->getName();
+                auto version = plug->getVersion();
+
+                QJsonObject row = pPluginRegister->object();
+                row[plugName] = version;
+
+                QFile jsonFile("C:\\Users\\PizzaKun\\Documents\\Projects\\build-re-play-Desktop_Qt_5_10_0_MSVC2017_64bit-Debug\\re-play\\plugins\\plugins.json");
+
+                delete pPluginRegister;
+                pPluginRegister = new QJsonDocument(row);
+                jsonFile.open(QIODevice::WriteOnly);
+                jsonFile.write(pPluginRegister->toJson());
+                jsonFile.close();
             }
 
             IPlugin *PluginLoader::getPlugin(QString path)
@@ -61,12 +104,17 @@ namespace RePlay
 
                 qDebug(plugin.errorString().toStdString().c_str());
 
-                return reinterpret_cast<IPlugin*>(plugin.instance());
+                return dynamic_cast<IPlugin*>(plugin.instance());
             }
 
             void PluginLoader::handleDirectoryChanged(QString dir)
             {
+                emit pluginFolderChanged();
+            }
 
+            void PluginLoader::handleFileChanged(QString dir)
+            {
+                emit pluginChanged(dir);
             }
 
         }
